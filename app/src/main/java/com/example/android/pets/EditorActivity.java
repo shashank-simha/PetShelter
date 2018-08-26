@@ -127,7 +127,12 @@ public class EditorActivity extends AppCompatActivity {
         String nameString = mNameEditText.getText().toString().trim();
         String breedString = mBreedEditText.getText().toString().trim();
         String weightString = mWeightEditText.getText().toString().trim();
-
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(weightString))
+        {
+            // display a toast about required fields.
+            Toast.makeText(this, "Name and weight cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int weight = Integer.parseInt(weightString);
 
 
