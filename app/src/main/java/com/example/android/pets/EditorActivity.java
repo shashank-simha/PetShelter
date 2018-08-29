@@ -159,11 +159,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String breedString = mBreedEditText.getText().toString().trim();
         String weightString = mWeightEditText.getText().toString().trim();
-        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(weightString)) {
+
+        // Check if this is supposed to be a new pet
+        // and check if all the fields in the editor are blank
+        if (mCurrentPetUri == null &&  TextUtils.isEmpty(nameString) && TextUtils.isEmpty(breedString) && TextUtils.isEmpty(weightString) && mGender == PetEntry.GENDER_UNKNOWN) {
+            // Since no fields were modified, we can return early without creating a new pet.
+            // No need to create ContentValues and no need to do any ContentProvider operations.
+            return;
+        }
+
+        else if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(weightString) ) {
             // display a toast about required fields.
             Toast.makeText(this, "Name and weight cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
+
         int weight = Integer.parseInt(weightString);
 
         // Create a ContentValues object where column names are the keys,
